@@ -1,5 +1,6 @@
 package berfin.climatecinema.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,9 +27,11 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Weather> weather;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<WatchedMovie> watchedMovie;
 

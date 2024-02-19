@@ -27,12 +27,8 @@ public class Weather {
     @Column(name = "location")
     private String weatherLocation;
 
-    @Column(name = "date")
-    private Date date;
-
     @OneToMany(mappedBy = "weather")
     private List<WatchedMovie> watchedMovie;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
