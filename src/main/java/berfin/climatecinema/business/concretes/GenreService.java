@@ -2,8 +2,6 @@ package berfin.climatecinema.business.concretes;
 
 
 import berfin.climatecinema.entities.dtos.Genre;
-import berfin.climatecinema.utilities.results.Result;
-import berfin.climatecinema.utilities.results.SuccessResult;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -49,6 +47,5 @@ public class GenreService {
 
             return genre.getGenreId();
         }
-
     }
 }

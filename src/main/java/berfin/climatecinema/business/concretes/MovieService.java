@@ -22,11 +22,15 @@ public class MovieService {
 
     private MovieDao movieDao;
 
-    public Result getMovie(){
+    public MovieService(MovieDao movieDao) {
+        this.movieDao = movieDao;
+    }
+
+    public Movie getMovie(String genreId){
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
-                .url("https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=120&sort_by=popularity.desc")
+                .url("https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=vote_average.desc&vote_count.gte=1000&with_genres="+genreId)
                 .get()
                 .addHeader("accept", "application/json")
                 .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5ZjY1ZGU4YzZmZjZjZWM2MThhNGY1ZGNjNzYwZGI5MSIsInN1YiI6IjY1Y2IzNTNiY2ZmZWVkMDE4NWMwM2M3OCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.M3aepX4bijGYMGfl7dT9kbdiH5rQ8MG_M7_FRGq3Be0")
@@ -43,29 +47,36 @@ public class MovieService {
             if (jsonObject.has("results")) {
                 JsonArray results = jsonObject.getAsJsonArray("results");
                 if (results.size() > 0) {
-                    JsonObject randomMovieObject = results.get(new Random().nextInt(results.size())).getAsJsonObject();
-
                     Movie movie = new Movie();
-                    movie.setTmdbId((long) randomMovieObject.get("id").getAsInt());
-                    movie.setMovieName(randomMovieObject.get("title").getAsString());
-                    movie.setMovieRating(String.valueOf(randomMovieObject.get("vote_average").getAsDouble()));
-                    movie.setMovieYear(String.valueOf(Integer.parseInt(randomMovieObject.get("release_date").getAsString().substring(0, 4))));
-                    movie.setMovieDesc(randomMovieObject.get("overview").getAsString());
-                    movie.setMovieGenre("Action");
+                    boolean watched = true;
+                    while (watched) {
+                        JsonObject randomMovieObject = results.get(new Random().nextInt(results.size())).getAsJsonObject();
 
-                    add(movie);
-                    return new SuccessResult("Movie added to database");
+                        movie.setTmdbId((long) randomMovieObject.get("id").getAsInt());
+                        movie.setMovieName(randomMovieObject.get("title").getAsString());
+                        movie.setMovieRating(String.valueOf(randomMovieObject.get("vote_average").getAsDouble()));
+                        movie.setMovieYear(String.valueOf(Integer.parseInt(randomMovieObject.get("release_date").getAsString().substring(0, 4))));
+                        movie.setMovieDesc(randomMovieObject.get("overview").getAsString());
+                        movie.setMovieGenre(genreId);
+
+                        if (!isExistbyTmdbId(movie)){
+                            watched = false;
+                            add(movie);}
+                    }
+                    return movie;
                 }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return new ErrorResult("No results found in the API response.");
+        return null;
     }
 
-    public Result add(Movie movie) {
-        this.movieDao.save(movie);
-        return new SuccessResult("Movie added");
+    public boolean isExistbyTmdbId(Movie movie){
+        return movieDao.existsByTmdbId(movie.getTmdbId());
+    }
 
+    public void add(Movie movie) {
+        this.movieDao.save(movie);
     }
 }

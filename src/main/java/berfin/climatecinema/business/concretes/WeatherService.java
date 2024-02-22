@@ -2,6 +2,7 @@ package berfin.climatecinema.business.concretes;
 
 import berfin.climatecinema.dataAccess.abstracts.WeatherDao;
 import berfin.climatecinema.entities.concretes.Weather;
+import berfin.climatecinema.entities.dtos.LocationCoordinate;
 import berfin.climatecinema.utilities.results.Result;
 import berfin.climatecinema.utilities.results.SuccessResult;
 import com.google.gson.Gson;
@@ -22,11 +23,11 @@ public class WeatherService {
         this.weatherDao = weatherDao;
     }
 
-    public Result weatherCall(){
+    public Weather weatherCall(LocationCoordinate locationCoordinate){
         OkHttpClient client = new OkHttpClient();
 
-        String lat = "44.34";
-        String lon = "10.99";
+        String lat = String.valueOf(locationCoordinate.getLat());
+        String lon = String.valueOf(locationCoordinate.getLon());
         String apiKey = "6de995f045ce5790a60794e11a53eeb7";
 
         String url = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey;
@@ -48,15 +49,20 @@ public class WeatherService {
             weather.setWeatherType(jsonObject.getAsJsonArray("weather").get(0).getAsJsonObject().get("main").getAsString());
 
             add(weather);
+            return weather;
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return new SuccessResult("");
     }
 
     public Result add(Weather weather) {
         this.weatherDao.save(weather);
         return new SuccessResult("Weather added");
+    }
+
+
+    public String getGenreName(){
+        return ("fdwfdfdd");
     }
 }

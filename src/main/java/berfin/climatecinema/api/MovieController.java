@@ -1,7 +1,9 @@
 package berfin.climatecinema.api;
 
 import berfin.climatecinema.business.concretes.GenreService;
+import berfin.climatecinema.business.concretes.LocationService;
 import berfin.climatecinema.business.concretes.MovieService;
+import berfin.climatecinema.entities.dtos.LocationCoordinate;
 import berfin.climatecinema.utilities.results.Result;
 import berfin.climatecinema.utilities.results.SuccessResult;
 
@@ -17,11 +19,13 @@ public class MovieController {
 
     private MovieService movieService;
     private GenreService genreService;
+    private LocationService locationService;
 
     @Autowired
-    public MovieController(MovieService movieService, GenreService genreService) {
+    public MovieController(LocationService locationService, MovieService movieService, GenreService genreService) {
         this.movieService = movieService;
         this.genreService = genreService;
+        this.locationService = locationService;
     }
 
     @PostMapping("/addRandomMovie")
@@ -32,5 +36,11 @@ public class MovieController {
     @PostMapping("/asdaadd")
     public void genre(String genreType) throws IOException {
         System.out.println(genreService.getGenreId(genreType));
+    }
+
+    @PostMapping("/AA")
+    public void locationnnn(String city) throws IOException{
+        LocationCoordinate loc = locationService.getLocationCoordinates(city);
+        System.out.println(loc.toString());
     }
 }
