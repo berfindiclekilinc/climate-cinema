@@ -8,20 +8,27 @@ import com.google.gson.JsonObject;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
+@Component
 @Service
 public class LocationService {
+
+    @Value("${location.api.key}")
+    private String apiKey;
+
+    @Value("${location.api.base-url}")
+    private String baseUrl;
 
     public LocationCoordinate getLocationCoordinates(String cityName) {
         OkHttpClient client = new OkHttpClient();
 
         String city = cityName;
-        String apiKey = "6de995f045ce5790a60794e11a53eeb7";
-
-        String url = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=5" + "&appid=" + apiKey;
+        String url = baseUrl + city + "&limit=5" + "&appid=" + apiKey;
 
         Request request = new Request.Builder()
                 .url(url)

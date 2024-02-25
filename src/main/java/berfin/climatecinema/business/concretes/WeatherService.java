@@ -10,14 +10,23 @@ import com.google.gson.JsonObject;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
+@Component
 @Service
 public class WeatherService {
 
     private WeatherDao weatherDao;
+
+    @Value("${weather.api.base-url}")
+    private String baseUrl;
+
+    @Value("${weather.api.key}")
+    private String apiKey;
 
     public WeatherService(WeatherDao weatherDao) {
         this.weatherDao = weatherDao;
@@ -28,9 +37,8 @@ public class WeatherService {
 
         String lat = String.valueOf(locationCoordinate.getLat());
         String lon = String.valueOf(locationCoordinate.getLon());
-        String apiKey = "6de995f045ce5790a60794e11a53eeb7";
 
-        String url = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey;
+        String url = baseUrl + lat + "&lon=" + lon + "&appid=" + apiKey;
 
         Request request = new Request.Builder()
                 .url(url)

@@ -4,11 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
 import javax.persistence.*;
-import javax.persistence.Table;
-import java.util.Date;
-import java.util.List;
 
 @Data
 @Entity
@@ -27,9 +23,4 @@ public class Weather {
     @Column(name = "location")
     private String weatherLocation;
 
-    @OneToMany(mappedBy = "weather")
-    private List<WatchedMovie> watchedMovie;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 }

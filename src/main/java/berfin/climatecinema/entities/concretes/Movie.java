@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @Entity
@@ -36,8 +35,5 @@ public class Movie {
 
     @Column(name = "description")
     private String movieDesc;
-
-    @OneToMany(mappedBy = "movie")
-    private List<WatchedMovie> watchedMovies;
 
 }

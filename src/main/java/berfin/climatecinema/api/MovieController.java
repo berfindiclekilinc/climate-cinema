@@ -28,15 +28,6 @@ public class MovieController {
         this.locationService = locationService;
     }
 
-    @PostMapping("/addRandomMovie")
-    public Result addRandomMovie() throws IOException {
-        return new SuccessResult();
-    }
-
-    @PostMapping("/asdaadd")
-    public void genre(String genreType) throws IOException {
-        System.out.println(genreService.getGenreId(genreType));
-    }
 
     @PostMapping("/AA")
     public void locationnnn(String city) throws IOException{

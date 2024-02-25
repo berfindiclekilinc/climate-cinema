@@ -1,12 +1,12 @@
 package berfin.climatecinema.utilities.results;
 
-public class ErrorResult extends Result{
+public class ErrorResult extends Result {
 
-    public ErrorResult(){
+    public ErrorResult() {
         super(false);
     }
 
-    public ErrorResult(String message){
+    public ErrorResult(String message) {
         super(false, message);
     }
 }

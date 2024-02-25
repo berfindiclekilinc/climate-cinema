@@ -3,6 +3,7 @@ package berfin.climatecinema.utilities.results;
 public class ErrorDataResult<T> extends DataResult {
 
     private T data;
+
     public ErrorDataResult(T data, String message) {
         super(data, false, message);
     }

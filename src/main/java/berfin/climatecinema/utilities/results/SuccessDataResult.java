@@ -1,8 +1,9 @@
 package berfin.climatecinema.utilities.results;
 
-public class SuccessDataResult<T> extends DataResult<T>{
+public class SuccessDataResult<T> extends DataResult<T> {
 
     private T data;
+
     public SuccessDataResult(T data, String message) {
         super(data, true, message);
     }
