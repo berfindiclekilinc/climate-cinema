@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 @Service
-public class RecommendService {
+public class GenrePickerService {
 
     private List<String> sunnyAndWarm = Arrays.asList("clear");
     private List<String> rainyAndCloudy = Arrays.asList("rain", "drizzle", "clouds", "tornado", "thunderstorm");
@@ -20,7 +20,7 @@ public class RecommendService {
     private List<String> warmGenres = Arrays.asList("Science Fiction", "Music", "Animation");
 
 
-    public String suggestedGenre(String weatherTypeInput){
+    public String suggestGenre(String weatherTypeInput){
 
         String weatherType = weatherTypeInput.toLowerCase();
         Random rand = new Random();
@@ -41,7 +41,6 @@ public class RecommendService {
             return "Genre not found for weather type";
         }
     }
-
 }
 
 

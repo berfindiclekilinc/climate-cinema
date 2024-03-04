@@ -1,9 +1,6 @@
 package berfin.climatecinema.api;
 
 import berfin.climatecinema.business.concretes.*;
-import berfin.climatecinema.entities.concretes.Movie;
-import berfin.climatecinema.entities.concretes.Weather;
-import berfin.climatecinema.entities.dtos.LocationCoordinate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,44 +10,16 @@ import java.io.IOException;
 @RestController
 public class RecommendController {
 
-    private MovieService movieService;
-    private GenreService genreService;
-    private LocationService locationService;
-    private WeatherService weatherService;
-    private RecommendService recommendService;
+    private SuggestionService suggestionService;
 
     @Autowired
-    public RecommendController(RecommendService recommendService, WeatherService weatherService,
-                               MovieService movieService, GenreService genreService, LocationService locationService) {
-        this.weatherService = weatherService;
-        this.movieService = movieService;
-        this.genreService = genreService;
-        this.locationService = locationService;
-        this.recommendService = recommendService;
+    public RecommendController(SuggestionService suggestionService) {
+        this.suggestionService = suggestionService;
     }
 
     @PostMapping("/getSuggestion")
-    public String getSuggestions(String city) throws IOException {
+    public String getSuggestions(String area) throws IOException {
+        return this.suggestionService.getSuggestions(area);
 
-        LocationCoordinate loc;
-        loc = locationService.getLocationCoordinates(city);
-
-        Weather weather;
-        weather = weatherService.weatherCall(loc);
-
-        String genre;
-        genre = recommendService.suggestedGenre(weather.getWeatherType());
-
-        String genreId;
-        genreId = genreService.getGenreId(genre);
-
-        Movie movie;
-        movie = movieService.getMovie(genreId);
-
-        return ("There is " + weather.getWeatherType().toLowerCase() + " in " + weather.getWeatherLocation()
-                + ".\nYou should watch this movie '" + movie.getMovieName() + "'"
-                + "\n" + movie.getMovieDesc() + "\nThe rating for the movie is " + movie.getMovieRating()
-                + ".\nThe genre of the movie is " + genre + ".\nThis movie was made in " + movie.getMovieYear()
-        );
     }
 }

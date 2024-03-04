@@ -38,7 +38,7 @@ public class WeatherService {
         String lat = String.valueOf(locationCoordinate.getLat());
         String lon = String.valueOf(locationCoordinate.getLon());
 
-        String url = baseUrl + lat + "&lon=" + lon + "&appid=" + apiKey;
+        String url = baseUrl +"?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey;
 
         Request request = new Request.Builder()
                 .url(url)
@@ -48,13 +48,15 @@ public class WeatherService {
             if (!response.isSuccessful()) {
                 throw new IOException("Unexpected code " + response);
             }
+            Weather weather = new Weather();
 
             Gson gson = new Gson();
             JsonObject jsonObject = gson.fromJson(response.body().string(), JsonObject.class);
 
-            Weather weather = new Weather();
+
             weather.setWeatherLocation(jsonObject.get("name").getAsString());
-            weather.setWeatherType(jsonObject.getAsJsonArray("weather").get(0).getAsJsonObject().get("main").getAsString());
+            weather.setWeatherType(jsonObject.getAsJsonArray("weather").get(0).getAsJsonObject().get("main")
+                    .getAsString());
 
             add(weather);
             return weather;
@@ -69,8 +71,4 @@ public class WeatherService {
         return new SuccessResult("Weather added");
     }
 
-
-    public String getGenreName(){
-        return ("fdwfdfdd");
-    }
 }

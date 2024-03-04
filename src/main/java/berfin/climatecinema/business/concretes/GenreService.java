@@ -18,7 +18,6 @@ import java.io.IOException;
 @Service
 @Component
 public class GenreService {
-
     @Value("${movie.api.genre.base-url}")
     private String baseUrl;
 
@@ -27,7 +26,6 @@ public class GenreService {
 
     public String getGenreId(String genreName) throws IOException {
         OkHttpClient client = new OkHttpClient();
-
 
         Request request = new Request.Builder()
                 .url(baseUrl)

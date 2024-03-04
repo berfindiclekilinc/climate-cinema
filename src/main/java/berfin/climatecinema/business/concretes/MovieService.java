@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Random;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 @Service
@@ -53,6 +54,7 @@ public class MovieService {
                 JsonArray results = jsonObject.getAsJsonArray("results");
                 if (results.size() > 0) {
                     Movie movie = new Movie();
+
                     boolean watched = true;
                     while (watched) {
                         JsonObject randomMovieObject = results.get(new Random().nextInt(results.size())).getAsJsonObject();
