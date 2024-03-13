@@ -4,8 +4,6 @@ import berfin.climatecinema.business.concretes.GenreService;
 import berfin.climatecinema.business.concretes.LocationService;
 import berfin.climatecinema.business.concretes.MovieService;
 import berfin.climatecinema.entities.dtos.LocationCoordinate;
-import berfin.climatecinema.utilities.results.Result;
-import berfin.climatecinema.utilities.results.SuccessResult;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

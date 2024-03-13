@@ -5,30 +5,32 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Date;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "weather")
-public class Weather {
-
+@Table(name = "watched_movie")
+public class WatchedMovie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "watched_movie_id")
     private int id;
 
-    @Column(name = "type")
-    private String weatherType;
+    @Column(name = "watch_date")
+    private Date watchDate;
 
-    @Column(name = "location")
-    private String weatherLocation;
-
-    @OneToMany(mappedBy = "weather")
-    private List<WatchedMovie> watchedMovie;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "movie_id")
+    private Movie movie;
+
+    @ManyToOne
+    @JoinColumn(name = "weather")
+    private Weather weather;
 
 }
